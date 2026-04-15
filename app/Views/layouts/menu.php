@@ -11,6 +11,11 @@
             Users
         </a><br>
     <?php endif; ?>
+<a href="/buku/publik">Menu Buku</a>
+
+<?php if(session()->get('role') == 'admin'): ?>
+    | <a href="/buku">Buku</a>
+<?php endif; ?>
 
         <?php $idu = session('id'); ?>
     <a href="<?= base_url('users/edit/' . $idu) ?>">
