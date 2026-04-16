@@ -20,59 +20,73 @@ class Buku extends BaseController
     }
 
     public function index()
-    {
-        $data['buku'] = $this->buku->getAll();
-        return view('buku/index',$data);
-    }
+{
+    $data['buku'] = $this->buku->findAll();
+    return view('buku/index',$data);
+}
 
+public function detail($id)
+{
+    $data['buku'] = $this->buku->getDetail($id);
+    return view('buku/detail',$data);
+}
     public function create()
     {
         return view('buku/create');
     }
 
     public function store()
-    {
-        // insert kategori
-        $id_kategori = $this->kategori->insert([
-            'nama_kategori' => $this->request->getPost('nama_kategori'),
-            'deskripsi' => $this->request->getPost('deskripsi_kategori')
-        ]);
+{
+    $file = $this->request->getFile('cover');
 
-        // insert penulis
-        $id_penulis = $this->penulis->insert([
-            'nama_penulis' => $this->request->getPost('nama_penulis'),
-            'alamat' => $this->request->getPost('alamat_penulis'),
-            'no_hp' => $this->request->getPost('hp_penulis')
-        ]);
-
-        // insert penerbit
-        $id_penerbit = $this->penerbit->insert([
-            'nama_penerbit' => $this->request->getPost('nama_penerbit'),
-            'alamat' => $this->request->getPost('alamat_penerbit'),
-            'no_hp' => $this->request->getPost('hp_penerbit')
-        ]);
-
-        // insert buku
-        $this->buku->insert([
-            'isbn' => $this->request->getPost('isbn'),
-            'judul' => $this->request->getPost('judul'),
-            'id_kategori' => $id_kategori,
-            'id_penulis' => $id_penulis,
-            'id_penerbit' => $id_penerbit,
-            'tahun_terbit' => $this->request->getPost('tahun'),
-            'jumlah' => $this->request->getPost('jumlah'),
-            'tersedia' => $this->request->getPost('tersedia'),
-            'deskripsi' => $this->request->getPost('deskripsi')
-        ]);
-
-        return redirect()->to('/buku');
+    $namaFile = null;
+    if ($file && $file->isValid()) {
+        $namaFile = $file->getRandomName();
+        $file->move('uploads/', $namaFile);
     }
+
+    // insert kategori
+    $id_kategori = $this->kategori->insert([
+        'nama_kategori' => $this->request->getPost('nama_kategori')
+    ]);
+
+    // insert penulis
+    $id_penulis = $this->penulis->insert([
+        'nama_penulis' => $this->request->getPost('nama_penulis'),
+        'alamat' => $this->request->getPost('alamat_penulis'),
+        'no_hp' => $this->request->getPost('hp_penulis')
+    ]);
+
+    // insert penerbit
+    $id_penerbit = $this->penerbit->insert([
+        'nama_penerbit' => $this->request->getPost('nama_penerbit'),
+        'alamat' => $this->request->getPost('alamat_penerbit'),
+        'no_hp' => $this->request->getPost('hp_penerbit')
+    ]);
+
+    // insert buku
+    $this->buku->insert([
+        'isbn' => $this->request->getPost('isbn'),
+        'judul' => $this->request->getPost('judul'),
+        'id_kategori' => $id_kategori,
+        'id_penulis' => $id_penulis,
+        'id_penerbit' => $id_penerbit,
+        'tahun_terbit' => $this->request->getPost('tahun'),
+        'jumlah' => $this->request->getPost('jumlah'),
+        'tersedia' => $this->request->getPost('tersedia'),
+        'deskripsi' => $this->request->getPost('deskripsi'),
+        'cover' => $namaFile
+    ]);
+
+    return redirect()->to('/buku');
+}
 
     public function delete($id)
     {
         $this->buku->delete($id);
         return redirect()->to('/buku');
     }
+    
 
     public function edit($id)
     {

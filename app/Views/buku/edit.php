@@ -1,11 +1,21 @@
-<h2>Edit Buku</h2>
+<?= $this->extend('layouts/main') ?>
+<?= $this->section('content') ?>
 
-<form method="post" action="/buku/update/<?= $buku['id_buku'] ?>">
+<h3>Edit Buku</h3>
 
-Judul: <input type="text" name="judul" value="<?= $buku['judul'] ?>"><br>
-Jumlah: <input type="text" name="jumlah" value="<?= $buku['jumlah'] ?>"><br>
-Tersedia: <input type="text" name="tersedia" value="<?= $buku['tersedia'] ?>"><br>
+<form action="<?= base_url('buku/update/'.$buku['id_buku']) ?>" method="post">
+
+Judul:<br>
+<input type="text" name="judul" value="<?= $buku['judul'] ?>"><br><br>
+
+Jumlah:<br>
+<input type="number" name="jumlah" value="<?= $buku['jumlah'] ?>"><br><br>
+
+Tersedia:<br>
+<input type="number" name="tersedia" value="<?= $buku['tersedia'] ?>"><br><br>
 
 <button type="submit">Update</button>
+<a href="<?= base_url('buku') ?>">Kembali</a>
 
 </form>
+<?= $this->endSection() ?>

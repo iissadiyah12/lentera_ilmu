@@ -37,4 +37,19 @@ class BukuModel extends Model
 
         return $builder->get()->getResultArray();
     }
+
+    public function getDetail($id)
+{
+    return $this->db->table('buku')
+        ->select('buku.*, 
+                  kategori.nama_kategori, kategori.deskripsi as deskripsi_kategori,
+                  penulis.nama_penulis, penulis.alamat as alamat_penulis, penulis.no_hp as hp_penulis,
+                  penerbit.nama_penerbit, penerbit.alamat as alamat_penerbit, penerbit.no_hp as hp_penerbit')
+        ->join('kategori','kategori.id_kategori=buku.id_kategori','left')
+        ->join('penulis','penulis.id_penulis=buku.id_penulis','left')
+        ->join('penerbit','penerbit.id_penerbit=buku.id_penerbit','left')
+        ->where('buku.id_buku', $id)
+        ->get()
+        ->getRowArray();
+}
 }

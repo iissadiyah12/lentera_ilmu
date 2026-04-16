@@ -1,22 +1,108 @@
-<h2>Tambah Buku</h2>
+<?= $this->extend('layouts/main') ?>
 
-<form method="post" action="/buku/store">
+<?= $this->section('content') ?>
 
-Judul: <input type="text" name="judul"><br>
-ISBN: <input type="text" name="isbn"><br>
+<?php
+$validation = $validation ?? \Config\Services::validation();
+?>
 
-Kategori: <input type="text" name="nama_kategori"><br>
-Deskripsi Kategori: <input type="text" name="deskripsi_kategori"><br>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                
+                <div class="card-header">
+                    <h4>Tambah Buku</h4>
+                </div>
 
-Penulis: <input type="text" name="nama_penulis"><br>
-Alamat: <input type="text" name="alamat_penulis"><br>
+                <div class="card-body">
 
-Penerbit: <input type="text" name="nama_penerbit"><br>
+                    <!-- VALIDATION -->
+                    <?php if ($validation->getErrors()): ?>
+                        <div class="alert alert-danger">
+                            <?= $validation->listErrors() ?>
+                        </div>
+                    <?php endif; ?>
 
-Tahun: <input type="text" name="tahun"><br>
-Jumlah: <input type="text" name="jumlah"><br>
-Tersedia: <input type="text" name="tersedia"><br>
+                    <!-- FORM -->
+                    <form action="<?= base_url('buku/store') ?>" method="post" enctype="multipart/form-data">
+                        <?= csrf_field() ?>
 
-<button type="submit">Simpan</button>
+                        <!-- ISBN -->
+                        <div class="mb-3">
+                            <label>ISBN</label>
+                            <input type="text" class="form-control" name="isbn" value="<?= old('isbn') ?>">
+                        </div>
 
-</form>
+                        <!-- JUDUL -->
+                        <div class="mb-3">
+                            <label>Judul Buku *</label>
+                            <input type="text"
+                                class="form-control <?= $validation->hasError('judul') ? 'is-invalid' : '' ?>"
+                                name="judul"
+                                value="<?= old('judul') ?>">
+                            <div class="invalid-feedback">
+                                <?= $validation->getError('judul') ?>
+                            </div>
+                        </div>
+
+                        <!-- RELASI -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>ID Kategori</label>
+                                <input type="number" class="form-control" name="id_kategori" value="<?= old('id_kategori') ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <label>ID Penulis</label>
+                                <input type="number" class="form-control" name="id_penulis" value="<?= old('id_penulis') ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <label>ID Penerbit</label>
+                                <input type="number" class="form-control" name="id_penerbit" value="<?= old('id_penerbit') ?>">
+                            </div>
+                        </div>
+
+                        <!-- DATA BUKU -->
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label>Tahun Terbit</label>
+                                <input type="number" name="tahun_terbit" min="1900" max="2099" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Jumlah</label>
+                                <input type="number" class="form-control" name="jumlah" value="<?= old('jumlah') ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Tersedia</label>
+                                <input type="number" class="form-control" name="tersedia" value="<?= old('tersedia') ?>">
+                            </div>
+                        </div>
+
+                        <!-- DESKRIPSI -->
+                        <div class="mt-3">
+                            <label>Deskripsi</label>
+                            <textarea class="form-control" name="deskripsi"><?= old('deskripsi') ?></textarea>
+                        </div>
+
+                        <!-- COVER -->
+                        <div class="mt-3">
+                            <label>Cover</label>
+                            <input type="file" name="cover" class="form-control" accept="image/*">
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="mt-4 text-end">
+                            <button class="btn btn-primary">Simpan</button>
+                            <a href="<?= base_url('buku') ?>" class="btn btn-secondary">Kembali</a>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection() ?>
