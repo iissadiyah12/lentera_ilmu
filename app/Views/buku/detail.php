@@ -3,7 +3,7 @@
 
 <h2>Detail Buku</h2>
 
-<img src="/uploads/<?= $buku['cover'] ?>" width="120"><br><br>
+<img src="/uploads/buku/<?= $buku['cover'] ?>" width="120"><br><br>
 
 <b>ID Buku:</b> <?= $buku['id_buku'] ?><br>
 <b>ISBN:</b> <?= $buku['isbn'] ?><br>

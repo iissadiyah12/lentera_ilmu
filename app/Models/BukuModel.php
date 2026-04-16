@@ -42,7 +42,7 @@ class BukuModel extends Model
 {
     return $this->db->table('buku')
         ->select('buku.*, 
-                  kategori.nama_kategori, kategori.deskripsi as deskripsi_kategori,
+                  kategori.nama_kategori, 
                   penulis.nama_penulis, penulis.alamat as alamat_penulis, penulis.no_hp as hp_penulis,
                   penerbit.nama_penerbit, penerbit.alamat as alamat_penerbit, penerbit.no_hp as hp_penerbit')
         ->join('kategori','kategori.id_kategori=buku.id_kategori','left')

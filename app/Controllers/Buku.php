@@ -19,10 +19,21 @@ class Buku extends BaseController
         $this->penerbit = new PenerbitModel();
     }
 
-    public function index()
+   public function index()
 {
-    $data['buku'] = $this->buku->findAll();
-    return view('buku/index',$data);
+    $keyword = $this->request->getGet('keyword');
+
+    if ($keyword) {
+        $data['buku'] = $this->buku
+            ->like('judul', $keyword)
+            ->orderBy("judul LIKE '$keyword%'", 'DESC') // prioritas depan
+            ->orderBy('judul', 'ASC')
+            ->findAll();
+    } else {
+        $data['buku'] = $this->buku->findAll();
+    }
+
+    return view('buku/index', $data);
 }
 
 public function detail($id)
@@ -30,48 +41,30 @@ public function detail($id)
     $data['buku'] = $this->buku->getDetail($id);
     return view('buku/detail',$data);
 }
-    public function create()
-    {
-        return view('buku/create');
-    }
-
-    public function store()
+   public function create()
 {
-    $file = $this->request->getFile('cover');
+    $data['kategori'] = $this->kategori->findAll();
+    $data['penulis']  = $this->penulis->findAll();
+    $data['penerbit'] = $this->penerbit->findAll();
 
-    $namaFile = null;
-    if ($file && $file->isValid()) {
-        $namaFile = $file->getRandomName();
-        $file->move('uploads/', $namaFile);
-    }
+    return view('buku/create', $data);
+}
+   public function store()
+{
+   $file = $this->request->getFile('cover');
 
-    // insert kategori
-    $id_kategori = $this->kategori->insert([
-        'nama_kategori' => $this->request->getPost('nama_kategori')
-    ]);
+if ($file && $file->isValid()) {
+    $namaFile = $file->getRandomName();
+    $file->move('uploads/buku/', $namaFile);
+}
 
-    // insert penulis
-    $id_penulis = $this->penulis->insert([
-        'nama_penulis' => $this->request->getPost('nama_penulis'),
-        'alamat' => $this->request->getPost('alamat_penulis'),
-        'no_hp' => $this->request->getPost('hp_penulis')
-    ]);
-
-    // insert penerbit
-    $id_penerbit = $this->penerbit->insert([
-        'nama_penerbit' => $this->request->getPost('nama_penerbit'),
-        'alamat' => $this->request->getPost('alamat_penerbit'),
-        'no_hp' => $this->request->getPost('hp_penerbit')
-    ]);
-
-    // insert buku
     $this->buku->insert([
         'isbn' => $this->request->getPost('isbn'),
         'judul' => $this->request->getPost('judul'),
-        'id_kategori' => $id_kategori,
-        'id_penulis' => $id_penulis,
-        'id_penerbit' => $id_penerbit,
-        'tahun_terbit' => $this->request->getPost('tahun'),
+        'id_kategori' => $this->request->getPost('id_kategori'),
+        'id_penulis' => $this->request->getPost('id_penulis'),
+        'id_penerbit' => $this->request->getPost('id_penerbit'),
+        'tahun_terbit' => $this->request->getPost('tahun_terbit'),
         'jumlah' => $this->request->getPost('jumlah'),
         'tersedia' => $this->request->getPost('tersedia'),
         'deskripsi' => $this->request->getPost('deskripsi'),
@@ -80,7 +73,6 @@ public function detail($id)
 
     return redirect()->to('/buku');
 }
-
     public function delete($id)
     {
         $this->buku->delete($id);
@@ -89,21 +81,28 @@ public function detail($id)
     
 
     public function edit($id)
-    {
-        $data['buku'] = $this->buku->find($id);
-        return view('buku/edit',$data);
-    }
+{
+    $data['buku'] = $this->buku->find($id);
+    $data['kategori'] = $this->kategori->findAll();
+    $data['penulis']  = $this->penulis->findAll();
+    $data['penerbit'] = $this->penerbit->findAll();
 
-    public function update($id)
-    {
-        $this->buku->update($id,[
-            'judul' => $this->request->getPost('judul'),
-            'jumlah' => $this->request->getPost('jumlah'),
-            'tersedia' => $this->request->getPost('tersedia')
-        ]);
+    return view('buku/edit',$data);
+}
 
-        return redirect()->to('/buku');
-    }
+   public function update($id)
+{
+    $this->buku->update($id,[
+        'judul' => $this->request->getPost('judul'),
+        'id_kategori' => $this->request->getPost('id_kategori'),
+        'id_penulis' => $this->request->getPost('id_penulis'),
+        'id_penerbit' => $this->request->getPost('id_penerbit'),
+        'jumlah' => $this->request->getPost('jumlah'),
+        'tersedia' => $this->request->getPost('tersedia')
+    ]);
+
+    return redirect()->to('/buku');
+}
 
     public function filter()
     {

@@ -46,28 +46,63 @@ $validation = $validation ?? \Config\Services::validation();
                             </div>
                         </div>
 
-                        <!-- RELASI -->
+                        <!-- RELASI (SUDAH DIPERBAIKI) -->
                         <div class="row">
+                            <!-- KATEGORI -->
                             <div class="col-md-4">
-                                <label>ID Kategori</label>
-                                <input type="number" class="form-control" name="id_kategori" value="<?= old('id_kategori') ?>">
+                             <label>Kategori</label>
+                                <select name="id_kategori" class="form-control">
+                                <option value="">-- Pilih --</option>
+                                    <?php foreach ($kategori as $k): ?>
+                                <option value="<?= $k['id_kategori'] ?>" <?= old('id_kategori') == $k['id_kategori'] ? 'selected' : '' ?>>
+                                     <?= $k['nama_kategori'] ?>
+                                </option>
+                    <?php endforeach; ?>
+                             </select>
+                       </div>
+
+                            <!-- PENULIS -->
+                            <div class="col-md-4">
+                                <label>Penulis</label>
+                                <select name="id_penulis" class="form-control">
+                                    <option value="">-- Pilih Penulis --</option>
+                                    <?php foreach($penulis as $p): ?>
+                                        <option value="<?= $p['id_penulis'] ?>"
+                                            <?= old('id_penulis') == $p['id_penulis'] ? 'selected' : '' ?>>
+                                            <?= $p['nama_penulis'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
+
+                            <!-- PENERBIT -->
                             <div class="col-md-4">
-                                <label>ID Penulis</label>
-                                <input type="number" class="form-control" name="id_penulis" value="<?= old('id_penulis') ?>">
-                            </div>
-                            <div class="col-md-4">
-                                <label>ID Penerbit</label>
-                                <input type="number" class="form-control" name="id_penerbit" value="<?= old('id_penerbit') ?>">
+                                <label>Penerbit</label>
+                                <select name="id_penerbit" class="form-control">
+                                    <option value="">-- Pilih Penerbit --</option>
+                                    <?php foreach($penerbit as $pb): ?>
+                                        <option value="<?= $pb['id_penerbit'] ?>"
+                                            <?= old('id_penerbit') == $pb['id_penerbit'] ? 'selected' : '' ?>>
+                                            <?= $pb['nama_penerbit'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
 
                         <!-- DATA BUKU -->
                         <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label>Tahun Terbit</label>
-                                <input type="number" name="tahun_terbit" min="1900" max="2099" class="form-control">
-                            </div>
+                           <div class="col-md-4">
+                            <label>Tahun Terbit</label>
+                            <select name="tahun_terbit" class="form-control">
+                                <option value="">-- Pilih Tahun --</option>
+                                <?php for ($i = 2001; $i <= 2026; $i++): ?>
+                                    <option value="<?= $i ?>" <?= old('tahun_terbit') == $i ? 'selected' : '' ?>>
+                                        <?= $i ?>
+                                    </option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
                             <div class="col-md-4">
                                 <label>Jumlah</label>
                                 <input type="number" class="form-control" name="jumlah" value="<?= old('jumlah') ?>">

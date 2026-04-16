@@ -5,13 +5,15 @@
 
 <a href="<?= base_url('buku/create') ?>">Tambah Buku</a>
 
-<form method="get">
-    <input type="text" name="keyword" placeholder="Cari buku...">
+<form method="get" action="<?= base_url('buku') ?>">
+    <input type="text" name="keyword" placeholder="Cari buku..." value="<?= $_GET['keyword'] ?? '' ?>">
     <button type="submit">Cari</button>
-</form>
+     <a href="<?= base_url('buku') ?>">Reset</a>
+</form><br>
 
 <table border="1">
 <tr>
+    <th>No</th>
     <th>Judul</th>
     <th>Jumlah</th>
     <th>Tersedia</th>
@@ -19,14 +21,18 @@
     <th>Aksi</th>
 </tr>
 
+<?php $no = 1; ?>
 <?php foreach($buku as $b): ?>
 <tr>
+    <td><?= $no++ ?></td>
     <td><?= $b['judul'] ?></td>
     <td><?= $b['jumlah'] ?></td>
     <td><?= $b['tersedia'] ?></td>
     <td>
-        <?php if($b['cover']): ?>
-            <img src="/uploads/buku/<?= $b['cover'] ?>" width="80">
+        <?php if(!empty($b['cover'])): ?>
+            <img src="<?= base_url('uploads/buku/'.$b['cover']) ?>" width="100">
+        <?php else: ?>
+            Tidak ada gambar
         <?php endif; ?>
     </td>
     <td>
