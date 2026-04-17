@@ -1,10 +1,37 @@
 <?= $this->extend('layouts/main') ?>
-
 <?= $this->section('content') ?>
 
 <?php
 $validation = $validation ?? \Config\Services::validation();
 ?>
+<script>
+function autocomplete(inputId, listId, url) {
+    document.getElementById(inputId).addEventListener("keyup", function() {
+        let keyword = this.value;
+
+        fetch(url + "?keyword=" + keyword)
+        .then(res => res.json())
+        .then(data => {
+            let html = "";
+            data.forEach(item => {
+                html += `<div onclick="pilih('${inputId}','${listId}','${item}')">${item}</div>`;
+            });
+            document.getElementById(listId).innerHTML = html;
+        });
+    });
+}
+
+function pilih(inputId, listId, value) {
+    document.getElementById(inputId).value = value;
+    document.getElementById(listId).innerHTML = "";
+}
+
+// aktifkan
+autocomplete("kategori", "list_kategori", "<?= base_url('buku/getKategori') ?>");
+autocomplete("penulis", "list_penulis", "<?= base_url('buku/getPenulis') ?>");
+autocomplete("penerbit", "list_penerbit", "<?= base_url('buku/getPenerbit') ?>");
+autocomplete("rak", "list_rak", "<?= base_url('buku/getRak') ?>");
+</script>
 
 <div class="container mt-4">
     <div class="row justify-content-center">
@@ -48,46 +75,21 @@ $validation = $validation ?? \Config\Services::validation();
 
                         <!-- RELASI (SUDAH DIPERBAIKI) -->
                         <div class="row">
-                            <!-- KATEGORI -->
-                            <div class="col-md-4">
-                             <label>Kategori</label>
-                                <select name="id_kategori" class="form-control">
-                                <option value="">-- Pilih --</option>
-                                    <?php foreach ($kategori as $k): ?>
-                                <option value="<?= $k['id_kategori'] ?>" <?= old('id_kategori') == $k['id_kategori'] ? 'selected' : '' ?>>
-                                     <?= $k['nama_kategori'] ?>
-                                </option>
-                    <?php endforeach; ?>
-                             </select>
-                       </div>
+                           Kategori:
+                            <input type="text" id="kategori" name="nama_kategori" autocomplete="off">
+                            <div id="list_kategori"></div>
 
-                            <!-- PENULIS -->
-                            <div class="col-md-4">
-                                <label>Penulis</label>
-                                <select name="id_penulis" class="form-control">
-                                    <option value="">-- Pilih Penulis --</option>
-                                    <?php foreach($penulis as $p): ?>
-                                        <option value="<?= $p['id_penulis'] ?>"
-                                            <?= old('id_penulis') == $p['id_penulis'] ? 'selected' : '' ?>>
-                                            <?= $p['nama_penulis'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                            Penulis:
+                            <input type="text" id="penulis" name="nama_penulis" autocomplete="off">
+                            <div id="list_penulis"></div>
 
-                            <!-- PENERBIT -->
-                            <div class="col-md-4">
-                                <label>Penerbit</label>
-                                <select name="id_penerbit" class="form-control">
-                                    <option value="">-- Pilih Penerbit --</option>
-                                    <?php foreach($penerbit as $pb): ?>
-                                        <option value="<?= $pb['id_penerbit'] ?>"
-                                            <?= old('id_penerbit') == $pb['id_penerbit'] ? 'selected' : '' ?>>
-                                            <?= $pb['nama_penerbit'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                            Penerbit:
+                            <input type="text" id="penerbit" name="nama_penerbit" autocomplete="off">
+                            <div id="list_penerbit"></div>
+
+                            Rak:
+                            <input type="text" id="rak" name="nama_rak" autocomplete="off">
+                            <div id="list_rak"></div>
                         </div>
 
                         <!-- DATA BUKU -->

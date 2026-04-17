@@ -3,7 +3,9 @@
 
 <h2>Data Buku</h2>
 
-<a href="<?= base_url('buku/create') ?>">Tambah Buku</a>
+<?php if(session()->get('role') == 'admin'): ?>
+    <a href="<?= base_url('buku/create') ?>">Tambah Buku</a>
+<?php endif; ?>
 
 <form method="get" action="<?= base_url('buku') ?>">
     <input type="text" name="keyword" placeholder="Cari buku..." value="<?= $_GET['keyword'] ?? '' ?>">
@@ -15,6 +17,9 @@
 <tr>
     <th>No</th>
     <th>Judul</th>
+    <th>Kategori</th>
+    <th>Penulis</th>
+    <th>Penerbit</th>
     <th>Jumlah</th>
     <th>Tersedia</th>
     <th>Cover</th>
@@ -26,6 +31,9 @@
 <tr>
     <td><?= $no++ ?></td>
     <td><?= $b['judul'] ?></td>
+    <td><?= $b['nama_kategori'] ?? '-' ?></td>
+    <td><?= $b['nama_penulis'] ?? '-' ?></td>
+    <td><?= $b['nama_penerbit'] ?? '-' ?></td>
     <td><?= $b['jumlah'] ?></td>
     <td><?= $b['tersedia'] ?></td>
     <td>

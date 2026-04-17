@@ -45,3 +45,17 @@ $routes->post('/buku/update/(:num)','Buku::update/$1');
 $routes->get('/buku/filter','Buku::filter');
 $routes->get('/buku/detail/(:num)', 'Buku::detail/$1');
 $routes->get('/buku/create', 'Buku::create');
+$routes->get('/buku/getKategori', 'Buku::getKategori');
+$routes->get('/buku/getPenulis', 'Buku::getPenulis');
+$routes->get('/buku/getPenerbit', 'Buku::getPenerbit');
+$routes->get('/buku/getRak', 'Buku::getRak');
+
+//PEMINJAMAN
+$routes->get('/peminjaman', 'Peminjaman::index');
+$routes->get('/peminjaman/create', 'Peminjaman::create');
+$routes->post('/peminjaman/store', 'Peminjaman::store');
+$routes->get('/peminjaman/delete/(:num)', 'Peminjaman::delete/$1');
+$routes->get('/peminjaman/filter', 'Peminjaman::filter');
+$routes->get('/peminjaman/edit/(:num)', 'Peminjaman::edit/$1');
+$routes->post('/peminjaman/update/(:num)', 'Peminjaman::update/$1');
+$routes->get('/peminjaman/detail/(:num)', 'Peminjaman::detail/$1');

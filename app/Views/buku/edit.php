@@ -1,6 +1,35 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
+<script>
+function autocomplete(inputId, listId, url) {
+    document.getElementById(inputId).addEventListener("keyup", function() {
+        let keyword = this.value;
+
+        fetch(url + "?keyword=" + keyword)
+        .then(res => res.json())
+        .then(data => {
+            let html = "";
+            data.forEach(item => {
+                html += `<div onclick="pilih('${inputId}','${listId}','${item}')">${item}</div>`;
+            });
+            document.getElementById(listId).innerHTML = html;
+        });
+    });
+}
+
+function pilih(inputId, listId, value) {
+    document.getElementById(inputId).value = value;
+    document.getElementById(listId).innerHTML = "";
+}
+
+// aktifkan
+autocomplete("kategori", "list_kategori", "<?= base_url('buku/getKategori') ?>");
+autocomplete("penulis", "list_penulis", "<?= base_url('buku/getPenulis') ?>");
+autocomplete("penerbit", "list_penerbit", "<?= base_url('buku/getPenerbit') ?>");
+autocomplete("rak", "list_rak", "<?= base_url('buku/getRak') ?>");
+</script>
+
 <h3>Edit Buku</h3>
 
 <form action="<?= base_url('buku/update/'.$buku['id_buku']) ?>" method="post" enctype="multipart/form-data">
@@ -10,36 +39,21 @@ ISBN:<br>
 
 Judul:<br>
 <input type="text" name="judul" value="<?= $buku['judul'] ?>"><br><br>
+Kategori:
+<input type="text" id="kategori" name="nama_kategori" autocomplete="off">
+<div id="list_kategori"></div>
 
-Kategori:<br>
-<select name="id_kategori">
-    <option value="">-- Pilih Kategori --</option>
-    <?php foreach($kategori as $k): ?>
-        <option value="<?= $k['id_kategori'] ?>" <?= $buku['id_kategori'] == $k['id_kategori'] ? 'selected' : '' ?>>
-            <?= $k['nama_kategori'] ?>
-        </option>
-    <?php endforeach; ?>
-</select><br><br>
+Penulis:
+<input type="text" id="penulis" name="nama_penulis" autocomplete="off">
+<div id="list_penulis"></div>
 
-Penulis:<br>
-<select name="id_penulis">
-    <option value="">-- Pilih Penulis --</option>
-    <?php foreach($penulis as $p): ?>
-        <option value="<?= $p['id_penulis'] ?>" <?= $buku['id_penulis'] == $p['id_penulis'] ? 'selected' : '' ?>>
-            <?= $p['nama_penulis'] ?>
-        </option>
-    <?php endforeach; ?>
-</select><br><br>
+Penerbit:
+<input type="text" id="penerbit" name="nama_penerbit" autocomplete="off">
+<div id="list_penerbit"></div>
 
-Penerbit:<br>
-<select name="id_penerbit">
-    <option value="">-- Pilih Penerbit --</option>
-    <?php foreach($penerbit as $pb): ?>
-        <option value="<?= $pb['id_penerbit'] ?>" <?= $buku['id_penerbit'] == $pb['id_penerbit'] ? 'selected' : '' ?>>
-            <?= $pb['nama_penerbit'] ?>
-        </option>
-    <?php endforeach; ?>
-</select><br><br>
+Rak:
+<input type="text" id="rak" name="nama_rak" autocomplete="off">
+<div id="list_rak"></div>
 
 Tahun Terbit:<br>
 <select name="tahun_terbit">

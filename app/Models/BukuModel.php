@@ -14,15 +14,20 @@ class BukuModel extends Model
     ];
 
     public function getAll()
-    {
-        return $this->db->table('buku')
-            ->select('buku.*, kategori.nama_kategori, penulis.nama_penulis, penerbit.nama_penerbit')
-            ->join('kategori','kategori.id_kategori=buku.id_kategori','left')
-            ->join('penulis','penulis.id_penulis=buku.id_penulis','left')
-            ->join('penerbit','penerbit.id_penerbit=buku.id_penerbit','left')
-            ->get()->getResultArray();
-    }
-
+{
+    return $this->select('
+        buku.*,
+        kategori.nama_kategori,
+        penulis.nama_penulis,
+        penerbit.nama_penerbit
+        rak.nama_rak
+    ')
+    ->join('kategori', 'kategori.id_kategori = buku.id_kategori', 'left')
+    ->join('penulis', 'penulis.id_penulis = buku.id_penulis', 'left')
+    ->join('penerbit', 'penerbit.id_penerbit = buku.id_penerbit', 'left')
+    ->join('rak', 'rak.id_rak = buku.id_rak', 'left')
+    ->findAll();
+}
     public function filter($kategori, $penulis, $penerbit)
     {
         $builder = $this->db->table('buku')

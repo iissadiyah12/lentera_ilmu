@@ -3,8 +3,12 @@
 
 <h2>Detail Buku</h2>
 
-<img src="/uploads/buku/<?= $buku['cover'] ?>" width="120"><br><br>
-
+<?php if(!empty($buku['cover'])): ?>
+    <img src="<?= base_url('uploads/buku/'.$buku['cover']) ?>" width="120">
+<?php else: ?>
+    <p>Tidak ada gambar</p>
+<?php endif; ?><br>
+<br>
 <b>ID Buku:</b> <?= $buku['id_buku'] ?><br>
 <b>ISBN:</b> <?= $buku['isbn'] ?><br>
 <b>Judul:</b> <?= $buku['judul'] ?><br>
