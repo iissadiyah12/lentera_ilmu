@@ -5,11 +5,13 @@
 <form method="get">
     <input type="text" name="keyword" placeholder="Cari judul">
     <button type="submit">Cari</button>
+    <a href="<?= base_url('buku') ?>">Reset</a>
 </form>
 
-<a href="<?= base_url('buku/create') ?>">Tambah</a>
-<a href="<?= base_url('buku/print') ?>" target="_blank">Print</a>
-
+<?php if (session()->get('role') == 'admin' || session()->get('role') == 'petugas'): ?>
+    <a href="<?= base_url('buku/create') ?>">Tambah</a>
+    <a href="<?= base_url('buku/print') ?>" target="_blank">Print</a>
+<?php endif; ?>
 <table border="1">
     <tr>
         <th>ID</th>
@@ -57,9 +59,8 @@
                 <a href="<?= base_url('buku/detail/' . $b['id_buku']) ?>">Detail</a>
                 <a href="<?= base_url('buku/edit/' . $b['id_buku']) ?>">Edit</a>
                 <a href="<?= base_url('buku/delete/' . $b['id_buku']) ?>">Hapus</a>
-                <a href="<?= base_url('buku/wa/' . $b['id_buku']) ?>" target="_blank">WA</a>
             </td>
         </tr>
     <?php endforeach; ?>
 </table>
-<?= $this->endSection() ?>
+<?= $this->endSection() ?> 
