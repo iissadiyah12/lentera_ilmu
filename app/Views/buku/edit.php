@@ -41,19 +41,19 @@ Judul:<br>
 <input type="text" name="judul" value="<?= $buku['judul'] ?>"><br><br>
 Kategori:
 <input type="text" id="kategori" name="nama_kategori" autocomplete="off">
-<div id="list_kategori"></div>
+<div id="list_kategori"></div><br>
 
 Penulis:
 <input type="text" id="penulis" name="nama_penulis" autocomplete="off">
-<div id="list_penulis"></div>
+<div id="list_penulis"></div><br>
 
 Penerbit:
 <input type="text" id="penerbit" name="nama_penerbit" autocomplete="off">
-<div id="list_penerbit"></div>
+<div id="list_penerbit"></div><br>
 
 Rak:
 <input type="text" id="rak" name="nama_rak" autocomplete="off">
-<div id="list_rak"></div>
+<div id="list_rak"></div><br>
 
 Tahun Terbit:<br>
 <select name="tahun_terbit">

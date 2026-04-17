@@ -6,6 +6,8 @@ use App\Models\BukuModel;
 use App\Models\KategoriModel;
 use App\Models\PenulisModel;
 use App\Models\PenerbitModel;
+use App\Models\RakModel;
+
 
 class Buku extends BaseController
 {

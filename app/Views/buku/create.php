@@ -4,7 +4,18 @@
 <?php
 $validation = $validation ?? \Config\Services::validation();
 ?>
-<script>
+
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                
+                <div class="card-header">
+                    <h4>Tambah Buku</h4>
+                </div>
+
+                <div class="card-body"><script>
 function autocomplete(inputId, listId, url) {
     document.getElementById(inputId).addEventListener("keyup", function() {
         let keyword = this.value;
@@ -32,17 +43,6 @@ autocomplete("penulis", "list_penulis", "<?= base_url('buku/getPenulis') ?>");
 autocomplete("penerbit", "list_penerbit", "<?= base_url('buku/getPenerbit') ?>");
 autocomplete("rak", "list_rak", "<?= base_url('buku/getRak') ?>");
 </script>
-
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                
-                <div class="card-header">
-                    <h4>Tambah Buku</h4>
-                </div>
-
-                <div class="card-body">
 
                     <!-- VALIDATION -->
                     <?php if ($validation->getErrors()): ?>

@@ -20,6 +20,7 @@
     <th>Kategori</th>
     <th>Penulis</th>
     <th>Penerbit</th>
+    <th>Rak</th>
     <th>Jumlah</th>
     <th>Tersedia</th>
     <th>Cover</th>
@@ -34,6 +35,7 @@
     <td><?= $b['nama_kategori'] ?? '-' ?></td>
     <td><?= $b['nama_penulis'] ?? '-' ?></td>
     <td><?= $b['nama_penerbit'] ?? '-' ?></td>
+    <td><?= $b['nama_rak'] ?? '-' ?></td>
     <td><?= $b['jumlah'] ?></td>
     <td><?= $b['tersedia'] ?></td>
     <td>
