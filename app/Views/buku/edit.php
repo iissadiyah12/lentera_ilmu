@@ -1,88 +1,88 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-
-<script>
-function autocomplete(inputId, listId, url) {
-    document.getElementById(inputId).addEventListener("keyup", function() {
-        let keyword = this.value;
-
-        fetch(url + "?keyword=" + keyword)
-        .then(res => res.json())
-        .then(data => {
-            let html = "";
-            data.forEach(item => {
-                html += `<div onclick="pilih('${inputId}','${listId}','${item}')">${item}</div>`;
-            });
-            document.getElementById(listId).innerHTML = html;
-        });
-    });
-}
-
-function pilih(inputId, listId, value) {
-    document.getElementById(inputId).value = value;
-    document.getElementById(listId).innerHTML = "";
-}
-
-// aktifkan
-autocomplete("kategori", "list_kategori", "<?= base_url('buku/getKategori') ?>");
-autocomplete("penulis", "list_penulis", "<?= base_url('buku/getPenulis') ?>");
-autocomplete("penerbit", "list_penerbit", "<?= base_url('buku/getPenerbit') ?>");
-autocomplete("rak", "list_rak", "<?= base_url('buku/getRak') ?>");
-</script>
-
 <h3>Edit Buku</h3>
 
-<form action="<?= base_url('buku/update/'.$buku['id_buku']) ?>" method="post" enctype="multipart/form-data">
+<form method="post" action="<?= base_url('buku/update/' . $buku['id_buku']) ?>" enctype="multipart/form-data">
 
-ISBN:<br>
-<input type="text" name="isbn" value="<?= $buku['isbn'] ?>"><br><br>
+    Judul:<br>
+    <input type="text" name="judul" value="<?= $buku['judul'] ?>"><br><br>
 
-Judul:<br>
-<input type="text" name="judul" value="<?= $buku['judul'] ?>"><br><br>
-Kategori:
-<input type="text" id="kategori" name="nama_kategori" autocomplete="off">
-<div id="list_kategori"></div><br>
+    ISBN:<br>
+    <input type="text" name="isbn" value="<?= $buku['isbn'] ?>"><br><br>
 
-Penulis:
-<input type="text" id="penulis" name="nama_penulis" autocomplete="off">
-<div id="list_penulis"></div><br>
+    Kategori:<br>
+    <select name="id_kategori">
+        <?php foreach ($kategori as $k): ?>
+            <option value="<?= $k['id_kategori'] ?>"
+                <?= $buku['id_kategori'] == $k['id_kategori'] ? 'selected' : '' ?>>
+                <?= $k['nama_kategori'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-Penerbit:
-<input type="text" id="penerbit" name="nama_penerbit" autocomplete="off">
-<div id="list_penerbit"></div><br>
+    Penulis:<br>
+    <select name="id_penulis">
+        <?php foreach ($penulis as $p): ?>
+            <option value="<?= $p['id_penulis'] ?>"
+                <?= $buku['id_penulis'] == $p['id_penulis'] ? 'selected' : '' ?>>
+                <?= $p['nama_penulis'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-Rak:
-<input type="text" id="rak" name="nama_rak" autocomplete="off">
-<div id="list_rak"></div><br>
+    Penerbit:<br>
+    <select name="id_penerbit">
+        <?php foreach ($penerbit as $p): ?>
+            <option value="<?= $p['id_penerbit'] ?>"
+                <?= $buku['id_penerbit'] == $p['id_penerbit'] ? 'selected' : '' ?>>
+                <?= $p['nama_penerbit'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-Tahun Terbit:<br>
-<select name="tahun_terbit">
-    <option value="">-- Pilih Tahun --</option>
-    <?php for($i=2001; $i<=2026; $i++): ?>
-        <option value="<?= $i ?>" <?= $buku['tahun_terbit'] == $i ? 'selected' : '' ?>>
-            <?= $i ?>
-        </option>
-    <?php endfor; ?>
-</select><br><br>
+    Rak:<br>
+    <select name="id_rak">
+        <?php foreach ($rak as $r): ?>
+            <option value="<?= $r['id_rak'] ?>">
+                <?= $r['nama_rak'] ?> - <?= $r['lokasi'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-Jumlah:<br>
-<input type="number" name="jumlah" value="<?= $buku['jumlah'] ?>"><br><br>
+    Tahun:<br>
+    <input type="number" name="tahun_terbit" value="<?= $buku['tahun_terbit'] ?>"><br><br>
 
-Tersedia:<br>
-<input type="number" name="tersedia" value="<?= $buku['tersedia'] ?>"><br><br>
+    Jumlah:<br>
+    <input type="number" name="jumlah" value="<?= $buku['jumlah'] ?>"><br><br>
 
-Deskripsi:<br>
-<textarea name="deskripsi"><?= $buku['deskripsi'] ?></textarea><br><br>
+    Tersedia:<br>
+    <input type="number" name="tersedia" value="<?= $buku['tersedia'] ?>"><br><br>
 
-Cover:<br>
-<?php if(!empty($buku['cover'])): ?>
-    <img src="<?= base_url('uploads/buku/'.$buku['cover']) ?>" width="100"><br>
-<?php endif; ?>
-<input type="file" name="cover"><br><br>
+    Deskripsi:<br>
+    <textarea name="deskripsi"><?= $buku['deskripsi'] ?></textarea><br><br>
 
-<button type="submit">Update</button>
-<a href="<?= base_url('buku') ?>">Kembali</a>
+    Cover:<br>
+    <input type="file" name="cover"><br><br>
+
+    Cover Saat Ini:<br>
+    <?php if ($buku['cover']): ?>
+
+        <?php
+        $ext = pathinfo($buku['cover'], PATHINFO_EXTENSION);
+        ?>
+
+        <?php if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])): ?>
+            <img src="<?= base_url('uploads/buku/' . $buku['cover']) ?>" width="100"><br>
+        <?php else: ?>
+            <a href="<?= base_url('uploads/buku/' . $buku['cover']) ?>" target="_blank">Lihat File</a><br>
+        <?php endif; ?>
+
+    <?php else: ?>
+        -
+    <?php endif; ?>
+
+    <button type="submit">Update</button>
+    <a href="<?= base_url('buku') ?>">Kembali</a>
 
 </form>
-
 <?= $this->endSection() ?>
