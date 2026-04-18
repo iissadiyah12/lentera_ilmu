@@ -2,6 +2,8 @@
 
 namespace App\Models;
 use CodeIgniter\Model;
+use App\Models\RakModel;
+use App\Models\RakBukuModel;
 
 class KategoriModel extends Model
 {

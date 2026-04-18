@@ -36,19 +36,6 @@ $routes->get('users/detail/(:num)', 'Users::detail/$1', $allRole); // aksi detai
 $routes->get('users/print', 'Users::print', $allRole); // aksi print data user
 $routes->get('users/wa/(:num)', 'Users::wa/$1', $allRole); // aksi kirim ke whatsapp
 
-//BUKU
-$routes->get('/buku','Buku::index');
-$routes->post('/buku/store','Buku::store');
-$routes->get('/buku/delete/(:num)','Buku::delete/$1');
-$routes->get('/buku/edit/(:num)','Buku::edit/$1');
-$routes->post('/buku/update/(:num)','Buku::update/$1');
-$routes->get('/buku/filter','Buku::filter');
-$routes->get('/buku/detail/(:num)', 'Buku::detail/$1');
-$routes->get('/buku/create', 'Buku::create');
-$routes->get('/buku/getKategori', 'Buku::getKategori');
-$routes->get('/buku/getPenulis', 'Buku::getPenulis');
-$routes->get('/buku/getPenerbit', 'Buku::getPenerbit');
-$routes->get('/buku/getRak', 'Buku::getRak');
 
 //PEMINJAMAN
 $routes->get('/peminjaman', 'Peminjaman::index');
